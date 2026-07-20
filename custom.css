@@ -1,5 +1,5 @@
 /*
- * Logseq Transparent v0.4.0
+ * Logseq Transparent v0.4.1
  * A glass theme designed for Logseq DB 2.0+.
  * Visual reference: https://github.com/Oczko24/Obsidian-transparent
  */
@@ -854,10 +854,7 @@ html.light
   color: var(--lt-text) !important;
   background: var(--lt-control) !important;
   box-shadow: none !important;
-  transition:
-    border-color var(--lt-motion) var(--lt-ease),
-    background-color var(--lt-motion) var(--lt-ease),
-    box-shadow var(--lt-motion) var(--lt-ease);
+  transition: background-color var(--lt-motion) var(--lt-ease);
 }
 
 #app-container
@@ -869,10 +866,10 @@ html.light
     .cp__select-input,
     .cp__filters-input
   ):focus {
-  border-color: color-mix(in srgb, var(--lt-accent) 52%, transparent) !important;
-  background: var(--lt-control-hover) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lt-accent) 12%, transparent) !important;
-  outline: none;
+  border-color: var(--lt-border) !important;
+  background: var(--lt-control) !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 :is(button.button, .ui__button, .button) {

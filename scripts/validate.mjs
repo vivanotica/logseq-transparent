@@ -143,6 +143,23 @@ if (!css.includes("hsl(var(--primary-foreground")) {
   fail("Primary buttons must follow Logseq's foreground token.");
 }
 
+const inputFocusRule = css.match(
+  /#app-container\s+:is\([\s\S]*?\):focus\s*\{([\s\S]*?)\}/,
+)?.[1];
+if (!inputFocusRule) {
+  fail("Input focus normalization is missing.");
+}
+if (
+  !/border-color:\s*var\(--lt-border\)\s*!important/.test(inputFocusRule) ||
+  !/background:\s*var\(--lt-control\)\s*!important/.test(inputFocusRule) ||
+  !/box-shadow:\s*none\s*!important/.test(inputFocusRule)
+) {
+  fail("Focused inputs must retain their resting box appearance.");
+}
+if (/var\(--lt-accent\)|var\(--lt-control-hover\)|0 0 0/.test(inputFocusRule)) {
+  fail("Focused inputs must not add an accent highlight or focus ring.");
+}
+
 if (
   !/\.ui__notifications,\s*\.ui__notifications-content\s*\{[\s\S]*?background:\s*transparent\s*!important/.test(
     css,

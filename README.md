@@ -5,7 +5,7 @@ direction of
 [Oczko24/Obsidian-transparent](https://github.com/Oczko24/Obsidian-transparent)
 and rebuilt around Logseq's native layout and DB interface.
 
-The current release is **0.4.0**.
+The current release is **0.4.1**.
 
 ## Features
 
