@@ -5,7 +5,7 @@ direction of
 [Oczko24/Obsidian-transparent](https://github.com/Oczko24/Obsidian-transparent)
 and rebuilt around Logseq's native layout and DB interface.
 
-The current release is **0.4.1**.
+The current release is **0.4.2**.
 
 ## Features
 
@@ -25,8 +25,9 @@ The current release is **0.4.1**.
 5. Choose **Logseq Transparent Light** or **Logseq Transparent Dark**.
 
 The package registers its light and dark variants through `logseq.themes`.
-Logseq loads `custom.css` only after the corresponding theme is selected; no
-plugin runtime or automatic CSS injection is used.
+Logseq loads `custom.css` only after the corresponding theme is selected. A
+minimal local entry calls `logseq.ready()` so Logseq can complete package
+initialization; it does not fetch or inject the stylesheet.
 
 ## Customize
 
@@ -53,7 +54,9 @@ See `custom-background.example.css` for a local-image example.
 ## Project structure
 
 - `custom.css` — theme tokens and Logseq component styles
-- `index.html` — inert package entry required by Logseq's package loader
+- `index.html` — local package entry
+- `index.js` — reports package readiness without injecting CSS
+- `vendor/` — pinned Logseq SDK runtime and its third-party license notice
 - `scripts/validate.mjs` — dependency-free structural and regression checks
 - `custom-background.example.css` — optional local customization example
 
@@ -66,9 +69,9 @@ npm run check
 ```
 
 The check validates the theme manifest and its light/dark registrations,
-ensures that no CSS-injection runtime is present, and checks balanced CSS
-blocks, the CSS/package version, notification wrapper isolation, and selectors
-previously associated with UI regressions.
+ensures that the entry reports readiness without injecting CSS, and checks
+balanced CSS blocks, the CSS/package version, notification wrapper isolation,
+and selectors previously associated with UI regressions.
 
 The selectors were compared with the installed Logseq DB application source.
 Because visual behavior can change between Logseq builds and operating
@@ -87,5 +90,8 @@ The translucent panes, quiet motion, and wallpaper treatment were benchmarked
 against
 [Obsidian Transparent](https://github.com/Oczko24/Obsidian-transparent).
 No CSS from that project is bundled here.
+
+The bundled Logseq SDK is `@logseq/libs` 0.0.17. Its included third-party
+license notice is stored beside the bundle.
 
 Released under the MIT License.

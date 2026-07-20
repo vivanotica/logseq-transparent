@@ -1,4 +1,6 @@
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
+import vm from "node:vm";
 
 const read = (path) => readFileSync(path, "utf8");
 const fail = (message) => {
@@ -8,6 +10,7 @@ const fail = (message) => {
 const packageJson = JSON.parse(read("package.json"));
 const css = read("custom.css");
 const html = read("index.html");
+const javascript = read("index.js");
 const example = read("custom-background.example.css");
 
 const requiredFiles = [
@@ -16,6 +19,9 @@ const requiredFiles = [
   "custom.css",
   "README.md",
   "LICENSE",
+  "index.js",
+  "vendor/logseq-libs-0.0.17.js",
+  "vendor/logseq-libs-0.0.17.LICENSE.txt",
 ];
 
 for (const path of requiredFiles) {
@@ -99,19 +105,54 @@ if (!modes.has("light") || !modes.has("dark")) {
   fail("Both light and dark theme modes must be registered.");
 }
 
-if (/<script\b/i.test(html)) {
-  fail("The theme entry must not execute a plugin runtime.");
+if (/<script[^>]+src=["']https?:\/\//i.test(html)) {
+  fail("Runtime scripts must remain local and pinned.");
 }
-if (
-  existsSync("index.js") ||
-  existsSync("vendor/logseq-libs-0.0.17.js") ||
-  existsSync("vendor/logseq-libs-0.0.17.LICENSE.txt")
-) {
-  fail("Obsolete CSS-injection runtime files must not be present.");
+for (const match of html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)) {
+  const scriptPath = match[1].replace(/^\.\//, "");
+  if (!existsSync(scriptPath)) fail(`Missing local runtime script: ${scriptPath}`);
+}
+
+if (/provideStyle|resolveResourceFullUrl|fetch\s*\(/.test(javascript)) {
+  fail("The package entry must not load or inject theme CSS.");
+}
+
+let readyCallback;
+const runtimeErrors = [];
+const entryScript = new vm.Script(javascript, { filename: "index.js" });
+entryScript.runInContext(
+  vm.createContext({
+    console: {
+      error: (...args) => runtimeErrors.push(args),
+    },
+    logseq: {
+      ready: (callback) => {
+        readyCallback = callback;
+        return Promise.resolve();
+      },
+    },
+  }),
+);
+await Promise.resolve();
+if (typeof readyCallback !== "function") {
+  fail("The package entry must register logseq.ready().");
+}
+await readyCallback();
+if (runtimeErrors.length) {
+  fail("The package entry reported an initialization error.");
 }
 
 if (/https?:\/\//i.test(example)) {
   fail("The wallpaper example must remain local-only.");
+}
+
+const sdkHash = createHash("sha256")
+  .update(readFileSync("vendor/logseq-libs-0.0.17.js"))
+  .digest("hex");
+const expectedSdkHash =
+  "fbf51e570989ac2eccbd726816ef8a619612fb6c047dfe39cc2c9103b12b4669";
+if (sdkHash !== expectedSdkHash) {
+  fail("The vendored Logseq SDK does not match the pinned 0.0.17 bundle.");
 }
 
 const removedTokens = [
