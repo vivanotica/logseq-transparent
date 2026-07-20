@@ -4,11 +4,20 @@
   "description": "A calm, translucent glass theme designed for Logseq DB.",
   "author": "viva",
   "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vivanotica/logseq-transparent.git"
+  },
+  "homepage": "https://github.com/vivanotica/logseq-transparent#readme",
+  "bugs": {
+    "url": "https://github.com/vivanotica/logseq-transparent/issues"
+  },
   "main": "index.html",
   "logseq": {
     "id": "logseq-transparent",
     "title": "Logseq Transparent",
     "icon": "./icon.svg",
+    "unsupportedGraphType": "file",
     "themes": [
       {
         "name": "Logseq Transparent Light",

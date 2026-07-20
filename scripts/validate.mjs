@@ -25,6 +25,7 @@ const requiredFiles = [
   "assets/logseq-transparent-light.png",
   "vendor/logseq-libs-0.0.17.js",
   "vendor/logseq-libs-0.0.17.LICENSE.txt",
+  ".github/workflows/publish.yml",
 ];
 
 for (const path of requiredFiles) {
@@ -48,6 +49,18 @@ if (
 }
 if (/^## (Project structure|Validation|Development)\s*$/im.test(readme)) {
   fail("README must remain user-facing and exclude development sections.");
+}
+if (packageJson.license !== "GPL-3.0-only") {
+  fail("The package must declare the GPL-3.0-only SPDX license.");
+}
+if (
+  packageJson.repository?.url !==
+  "https://github.com/vivanotica/logseq-transparent.git"
+) {
+  fail("The package must declare its public GitHub repository.");
+}
+if (packageJson.logseq?.unsupportedGraphType !== "file") {
+  fail("The package must declare that file graphs are unsupported.");
 }
 
 let blockDepth = 0;

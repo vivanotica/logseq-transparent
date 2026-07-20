@@ -1,0 +1,40 @@
+name: Publish theme release
+
+"on":
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate package
+        run: npm run check
+
+      - name: Build release archive
+        env:
+          PACKAGE_NAME: logseq-transparent
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          mkdir -p "dist/${PACKAGE_NAME}"
+          cp LICENSE README.md package.json icon.svg index.html index.js custom.css custom-background.example.css "dist/${PACKAGE_NAME}/"
+          cp -R assets vendor "dist/${PACKAGE_NAME}/"
+          cd dist
+          zip -r "${PACKAGE_NAME}-${RELEASE_TAG}.zip" "${PACKAGE_NAME}"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/logseq-transparent-${{ github.ref_name }}.zip
+            package.json
