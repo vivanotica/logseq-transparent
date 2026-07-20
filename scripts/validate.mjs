@@ -223,28 +223,6 @@ if (/var\(--lt-accent\)|var\(--lt-control-hover\)|0 0 0/.test(inputFocusRule)) {
   fail("Focused inputs must not add an accent highlight or focus ring.");
 }
 
-const pluginReadmeDialogRule = css.match(
-  /\.ui__dialog-content\[label=["']plugin-readme["']\]\s*\{([\s\S]*?)\}/,
-)?.[1];
-if (!pluginReadmeDialogRule) {
-  fail("Plugin README dialog sizing fix is missing.");
-}
-if (
-  !/width:\s*min\(900px,\s*calc\(100vw - 32px\)\)\s*!important/.test(
-    pluginReadmeDialogRule,
-  ) ||
-  !/min-width:\s*0/.test(pluginReadmeDialogRule)
-) {
-  fail("Plugin README dialogs must retain a responsive readable width.");
-}
-if (
-  !/\.ui__dialog-content\[label=["']plugin-readme["']\]\s+\.lsp-frame-readme\s*\{[\s\S]*?width:\s*100%[\s\S]*?min-width:\s*0/.test(
-    css,
-  )
-) {
-  fail("Marketplace README frames must fit the dialog width.");
-}
-
 if (
   !/\.ui__notifications,\s*\.ui__notifications-content\s*\{[\s\S]*?background:\s*transparent\s*!important/.test(
     css,

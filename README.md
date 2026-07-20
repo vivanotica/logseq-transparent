@@ -22,7 +22,6 @@ notifications, and other DB views.
 
 - Matching dark and light theme variants
 - Translucent surfaces with soft gradients and restrained blur
-- Colors that follow Logseq's active selection color
 - Coordinated navigation, sidebar, editor, dialog, and notification styling
 - DB view styling for properties, tables, galleries, and query builders
 - Responsive layout and reduced-motion support
@@ -96,4 +95,4 @@ project.
 
 ## License
 
-Released under the [MIT License](./LICENSE).
+Released under the [GNU General Public License v3.0](./LICENSE).

@@ -1,5 +1,5 @@
 /*
- * Logseq Transparent v0.4.3
+ * Logseq Transparent v0.4.2
  * A glass theme designed for Logseq DB 2.0+.
  * Visual reference: https://github.com/Oczko24/Obsidian-transparent
  */
@@ -971,47 +971,6 @@ button.bg-primary {
   background: rgba(2, 8, 6, 0.3) !important;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-}
-
-/* Keep plugin and theme README details from collapsing to min-content width. */
-.ui__dialog-content[label="plugin-readme"] {
-  box-sizing: border-box;
-  width: min(900px, calc(100vw - 32px)) !important;
-  min-width: 0;
-  max-width: min(72rem, calc(100vw - 32px)) !important;
-  overflow: hidden;
-  border: 1px solid var(--lt-border) !important;
-  border-radius: var(--lt-radius-md) !important;
-  color: var(--lt-text);
-  background: var(--lt-panel-strong) !important;
-  box-shadow: var(--lt-shadow-float) !important;
-  -webkit-backdrop-filter: blur(var(--lt-blur)) saturate(130%);
-  backdrop-filter: blur(var(--lt-blur)) saturate(130%);
-}
-
-.ui__dialog-content[label="plugin-readme"] > .ui__dialog-main-content,
-.ui__dialog-content[label="plugin-readme"] .cp__plugins-details {
-  width: 100%;
-  min-width: 0;
-}
-
-.ui__dialog-content[label="plugin-readme"] .cp__plugins-details > .ls-block {
-  max-width: 100% !important;
-  overflow-wrap: anywhere;
-}
-
-.ui__dialog-content[label="plugin-readme"] .cp__plugins-details img {
-  max-width: 100%;
-  height: auto;
-}
-
-.ui__dialog-content[label="plugin-readme"] .lsp-frame-readme {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  min-height: 75vh;
-  border: 0;
 }
 
 .menu-link,
