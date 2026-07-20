@@ -1,5 +1,5 @@
 /*
- * Logseq Transparent v0.3.0
+ * Logseq Transparent v0.3.1
  * A glass theme designed for Logseq DB 2.0+.
  * Visual reference: https://github.com/Oczko24/Obsidian-transparent
  */
@@ -28,6 +28,7 @@
     radial-gradient(circle at 10% 88%, rgba(98, 125, 77, 0.22), transparent 34%),
     linear-gradient(135deg, #10150f 0%, #20281b 52%, #3a3423 100%);
 
+  --lt-canvas: #151a13;
   --lt-bg: rgba(6, 9, 6, 0.16);
   --lt-bg-soft: rgba(0, 0, 0, 0.1);
   --lt-panel: rgba(0, 0, 0, 0.12);
@@ -86,6 +87,7 @@ html.light,
   --lt-wallpaper:
     linear-gradient(135deg, #e8f5ee 0%, #c8e6d4 100%);
 
+  --lt-canvas: #d6ebde;
   --lt-bg: rgba(255, 255, 255, 0.08);
   --lt-bg-soft: rgba(255, 255, 255, 0.12);
   --lt-panel: rgba(255, 255, 255, 0.16);
@@ -213,13 +215,13 @@ body,
 
 body {
   color: var(--lt-text);
-  background-color: #151a13 !important;
+  background-color: var(--lt-canvas) !important;
 }
 
 html[data-theme="light"] body,
 html.light body,
 .light-theme {
-  background-color: #d6ebde !important;
+  background-color: var(--lt-canvas) !important;
 }
 
 body::before {
@@ -447,6 +449,22 @@ html.light .cp__header,
       color-mix(in srgb, var(--lt-panel) 28%, transparent) 72%,
       transparent 100%
     ) !important;
+}
+
+.left-sidebar-inner
+  .sidebar-contents-container.is-scrolled
+  :is(.favorites, .recent)
+  > .sidebar-content-group-inner
+  > .hd {
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--lt-canvas) 96%, var(--lt-text) 4%),
+      var(--lt-canvas)
+    ) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 10px 18px rgba(0, 0, 0, 0.08);
 }
 
 .left-sidebar-inner :is(.favorite-item, .recent-item),

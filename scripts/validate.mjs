@@ -197,4 +197,12 @@ if (
   fail("Notification card styling is missing.");
 }
 
+if (
+  !/\.sidebar-contents-container\.is-scrolled[\s\S]*?:is\(\.favorites, \.recent\)[\s\S]*?> \.hd\s*\{[\s\S]*?var\(--lt-canvas\)/.test(
+    css,
+  )
+) {
+  fail("Scrolled sidebar section headers must use an opaque canvas surface.");
+}
+
 console.log("Validation passed.");
