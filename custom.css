@@ -1,0 +1,1113 @@
+/*
+ * Logseq Transparent v0.3.0
+ * A glass theme designed for Logseq DB 2.0+.
+ * Visual reference: https://github.com/Oczko24/Obsidian-transparent
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Public theme tokens                                                        */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark light;
+
+  --lt-accent: var(--ls-active-primary-color);
+  --lt-content-width: 780px;
+  --lt-sidebar-width: 252px;
+  --lt-radius-xs: 4px;
+  --lt-radius-sm: 6px;
+  --lt-radius-md: 9px;
+  --lt-blur: 18px;
+  --lt-wallpaper-blur: 24px;
+  --lt-wallpaper-position: center;
+  --lt-motion: 420ms;
+  --lt-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --lt-wallpaper:
+    radial-gradient(circle at 76% 8%, rgba(255, 162, 0, 0.15), transparent 25%),
+    radial-gradient(circle at 10% 88%, rgba(98, 125, 77, 0.22), transparent 34%),
+    linear-gradient(135deg, #10150f 0%, #20281b 52%, #3a3423 100%);
+
+  --lt-bg: rgba(6, 9, 6, 0.16);
+  --lt-bg-soft: rgba(0, 0, 0, 0.1);
+  --lt-panel: rgba(0, 0, 0, 0.12);
+  --lt-panel-strong: rgba(8, 10, 7, 0.54);
+  --lt-control: rgba(0, 0, 0, 0.24);
+  --lt-control-hover: rgba(255, 255, 255, 0.08);
+  --lt-border: rgba(255, 255, 255, 0.063);
+  --lt-border-strong: rgba(255, 255, 255, 0.11);
+  --lt-text: #e2e0dc;
+  --lt-text-secondary: #b7b8b1;
+  --lt-text-muted: #858880;
+  --lt-shadow-float: 0 18px 54px rgba(0, 0, 0, 0.28);
+
+  /* Space-separated channels for Logseq's hsl(var(--token)) utilities. */
+  --lt-hsl-background: 161 31% 8% / 0.34;
+  --lt-hsl-foreground: 150 16% 92%;
+  --lt-hsl-card: 162 26% 14% / 0.58;
+  --lt-hsl-popover: 162 26% 14% / 0.92;
+  --lt-hsl-secondary: 150 15% 100% / 0.075;
+  --lt-hsl-muted: 150 15% 100% / 0.075;
+  --lt-hsl-border: 150 18% 100% / 0.11;
+
+  /* Logseq DB uses these Radix scales directly instead of semantic tokens. */
+  --lx-gray-01: rgba(0, 0, 0, 0.05);
+  --lx-gray-02: rgba(0, 0, 0, 0.1);
+  --lx-gray-03: rgba(0, 0, 0, 0.16);
+  --lx-gray-04: rgba(255, 255, 255, 0.07);
+  --lx-gray-05: rgba(255, 255, 255, 0.09);
+  --lx-gray-06: rgba(255, 255, 255, 0.12);
+  --lx-gray-07: rgba(255, 255, 255, 0.16);
+  --lx-gray-08: #76877f;
+  --lx-gray-09: #93a39c;
+  --lx-gray-10: #aebcb6;
+  --lx-gray-11: #cbd6d1;
+  --lx-gray-12: #eef4f1;
+  --lx-gray-01-alpha: rgba(255, 255, 255, 0.018);
+  --lx-gray-02-alpha: rgba(255, 255, 255, 0.035);
+  --lx-gray-03-alpha: rgba(255, 255, 255, 0.055);
+  --lx-gray-04-alpha: rgba(255, 255, 255, 0.075);
+  --lx-gray-05-alpha: rgba(255, 255, 255, 0.095);
+  --lx-gray-06-alpha: rgba(255, 255, 255, 0.12);
+  --lx-gray-07-alpha: rgba(255, 255, 255, 0.16);
+  --lx-gray-08-alpha: rgba(255, 255, 255, 0.22);
+  --lx-gray-09-alpha: rgba(255, 255, 255, 0.42);
+  --lx-gray-10-alpha: rgba(255, 255, 255, 0.5);
+  --lx-gray-11-alpha: rgba(255, 255, 255, 0.72);
+  --lx-gray-12-alpha: rgba(255, 255, 255, 0.93);
+
+}
+
+html[data-theme="light"],
+html.light,
+.light-theme {
+  color-scheme: light;
+
+  --lt-wallpaper:
+    linear-gradient(135deg, #e8f5ee 0%, #c8e6d4 100%);
+
+  --lt-bg: rgba(255, 255, 255, 0.08);
+  --lt-bg-soft: rgba(255, 255, 255, 0.12);
+  --lt-panel: rgba(255, 255, 255, 0.16);
+  --lt-panel-strong: rgba(255, 255, 255, 0.46);
+  --lt-control: rgba(255, 255, 255, 0.5);
+  --lt-control-hover: rgba(255, 255, 255, 0.7);
+  --lt-border: rgba(24, 44, 34, 0.063);
+  --lt-border-strong: rgba(24, 44, 34, 0.11);
+  --lt-text: #1d1d1f;
+  --lt-text-secondary: #555a56;
+  --lt-text-muted: #7b817d;
+  --lt-shadow-float: 0 18px 54px rgba(47, 66, 56, 0.16);
+
+  --lt-hsl-background: 140 29% 97% / 0.38;
+  --lt-hsl-foreground: 145 20% 17%;
+  --lt-hsl-card: 140 33% 99% / 0.56;
+  --lt-hsl-popover: 140 33% 99% / 0.92;
+  --lt-hsl-secondary: 145 25% 20% / 0.07;
+  --lt-hsl-muted: 145 25% 20% / 0.07;
+  --lt-hsl-border: 145 33% 17% / 0.12;
+
+  --lx-gray-01: rgba(255, 255, 255, 0.05);
+  --lx-gray-02: rgba(255, 255, 255, 0.1);
+  --lx-gray-03: rgba(255, 255, 255, 0.16);
+  --lx-gray-04: rgba(34, 55, 46, 0.065);
+  --lx-gray-05: rgba(34, 55, 46, 0.085);
+  --lx-gray-06: rgba(34, 55, 46, 0.11);
+  --lx-gray-07: rgba(34, 55, 46, 0.15);
+  --lx-gray-08: #a7b2ad;
+  --lx-gray-09: #7f8d87;
+  --lx-gray-10: #697871;
+  --lx-gray-11: #4d6057;
+  --lx-gray-12: #22332c;
+  --lx-gray-01-alpha: rgba(25, 52, 41, 0.015);
+  --lx-gray-02-alpha: rgba(25, 52, 41, 0.027);
+  --lx-gray-03-alpha: rgba(25, 52, 41, 0.045);
+  --lx-gray-04-alpha: rgba(25, 52, 41, 0.065);
+  --lx-gray-05-alpha: rgba(25, 52, 41, 0.085);
+  --lx-gray-06-alpha: rgba(25, 52, 41, 0.11);
+  --lx-gray-07-alpha: rgba(25, 52, 41, 0.15);
+  --lx-gray-08-alpha: rgba(25, 52, 41, 0.22);
+  --lx-gray-09-alpha: rgba(25, 52, 41, 0.42);
+  --lx-gray-10-alpha: rgba(25, 52, 41, 0.5);
+  --lx-gray-11-alpha: rgba(25, 52, 41, 0.7);
+  --lx-gray-12-alpha: rgba(25, 52, 41, 0.9);
+
+}
+
+/* -------------------------------------------------------------------------- */
+/* Logseq color bridge                                                        */
+/* -------------------------------------------------------------------------- */
+
+:root,
+html[data-theme="dark"],
+html.dark,
+.dark-theme,
+html[data-theme="light"],
+html.light,
+.light-theme {
+  --background: var(--lt-hsl-background);
+  --foreground: var(--lt-hsl-foreground);
+  --card: var(--lt-hsl-card);
+  --card-foreground: var(--lt-hsl-foreground);
+  --popover: var(--lt-hsl-popover);
+  --popover-foreground: var(--lt-hsl-foreground);
+  --secondary: var(--lt-hsl-secondary);
+  --secondary-foreground: var(--lt-hsl-foreground);
+  --muted: var(--lt-hsl-muted);
+  --muted-foreground: var(--lt-hsl-foreground);
+  --border: var(--lt-hsl-border);
+  --input: var(--lt-hsl-border);
+
+  --ls-font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --ls-main-content-max-width: var(--lt-content-width);
+  --ls-left-sidebar-width: var(--lt-sidebar-width);
+  --ls-primary-background-color: transparent;
+  --ls-primary-background-color1: transparent;
+  --ls-secondary-background-color: var(--lt-panel);
+  --ls-secondary-background-color1: var(--lt-panel);
+  --ls-tertiary-background-color: var(--lt-control);
+  --ls-tertiary-background-color1: var(--lt-control);
+  --ls-quaternary-background-color: var(--lt-control-hover);
+  --ls-quaternary-background-color1: var(--lt-control-hover);
+  --ls-quinary-background-color: var(--lt-panel-strong);
+  --ls-senary-background-color: var(--lt-control-hover);
+  --ls-primary-text-color: var(--lt-text);
+  --ls-secondary-text-color: var(--lt-text-secondary);
+  --ls-left-sidebar-text-color: var(--lt-text-secondary);
+  --ls-right-sidebar-topbar-color: var(--lt-text-secondary);
+  --ls-border-color: var(--lt-border);
+  --ls-secondary-border-color: var(--lt-border);
+  --ls-tertiary-border-color: var(--lt-border-strong);
+  --ls-block-highlight-color: color-mix(in srgb, var(--lt-accent) 11%, transparent);
+  --ls-menu-hover-color: var(--lt-control-hover);
+  --ls-button-background: var(--lt-accent);
+  --ls-block-properties-background-color: transparent;
+  --ls-page-properties-background-color: transparent;
+  --ls-page-inline-code-bg-color: var(--lt-control);
+  --ls-page-blockquote-bg-color: var(--lt-control);
+  --ls-page-blockquote-border-color: color-mix(in srgb, var(--lt-accent) 58%, transparent);
+  --ls-page-blockquote-color: var(--lt-text-secondary);
+  --ls-table-tr-even-background-color: rgba(255, 255, 255, 0.025);
+  --ls-notification-background: var(--lt-panel-strong);
+  --ls-notification-text-color: var(--lt-text);
+  --lx-bg-override: transparent;
+  --lx-popover-bg: var(--lt-panel-strong);
+  --color-level-1: var(--lt-bg-soft);
+  --color-level-2: var(--lt-control);
+  --color-level-3: var(--lt-control-hover);
+  --color-level-4: color-mix(in srgb, var(--lt-accent) 11%, transparent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Wallpaper and application shell                                            */
+/* -------------------------------------------------------------------------- */
+
+html,
+body,
+#root,
+#app-container {
+  min-height: 100%;
+  background: transparent !important;
+}
+
+body {
+  color: var(--lt-text);
+  background-color: #151a13 !important;
+}
+
+html[data-theme="light"] body,
+html.light body,
+.light-theme {
+  background-color: #d6ebde !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -2;
+  inset: calc(-1 * var(--lt-wallpaper-blur) - 12px);
+  pointer-events: none;
+  background: var(--lt-wallpaper);
+  background-position: var(--lt-wallpaper-position);
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(var(--lt-wallpaper-blur));
+  transform: scale(1.02);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: var(--lt-bg);
+}
+
+#app-container,
+.cp__sidebar-main-layout,
+.cp__sidebar-main-content,
+.cp__sidebar-left-layout,
+.left-sidebar,
+.left-sidebar-inner,
+.cp__right-sidebar,
+.cp__right-sidebar-inner {
+  background: transparent !important;
+}
+
+::selection {
+  color: var(--lt-text);
+  background: color-mix(in srgb, var(--lt-accent) 28%, transparent);
+}
+
+#app-container * {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  background-clip: padding-box;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header and sidebars                                                        */
+/* -------------------------------------------------------------------------- */
+
+.cp__header {
+  border-bottom: 1px solid color-mix(in srgb, var(--lt-border) 72%, transparent);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--lt-panel-strong) 46%, transparent) 0,
+      color-mix(in srgb, var(--lt-panel-strong) 32%, transparent)
+        calc(var(--lt-sidebar-width) - 20px),
+      transparent calc(var(--lt-sidebar-width) + 38px)
+    ) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+html[data-theme="light"] .cp__header,
+html.light .cp__header,
+.light-theme .cp__header {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--lt-panel-strong) 42%, transparent) 0,
+      color-mix(in srgb, var(--lt-panel-strong) 28%, transparent)
+        calc(var(--lt-sidebar-width) - 20px),
+      transparent calc(var(--lt-sidebar-width) + 38px)
+    ) !important;
+}
+
+.cp__header > .r {
+  gap: 3px;
+  padding-right: 10px;
+}
+
+.cp__header > .r > .flex.items-center {
+  gap: 3px;
+}
+
+/* Keep the account and collaboration controls from becoming one dark slab. */
+.cp__header .rtc-collaborators,
+.cp__header .rtc-collaborators.bg-gray-01 {
+  height: 32px;
+  gap: 2px !important;
+  padding-inline: 2px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent !important;
+}
+
+.cp__header > .r :is(button.button, a.button, .ui__button.as-ghost),
+.cp__header .rtc-collaborators > button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  color: var(--lt-text-secondary);
+  background: transparent !important;
+  opacity: 0.72;
+  box-shadow: none !important;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.cp__header > .r :is(button.button, a.button, .ui__button.as-ghost):hover,
+.cp__header .rtc-collaborators > button:hover {
+  border-color: var(--lt-border) !important;
+  color: var(--lt-text);
+  background: var(--lt-control-hover) !important;
+  opacity: 1;
+}
+
+.cp__header > .r :is(button.button, a.button, .ui__button.as-ghost):active,
+.cp__header .rtc-collaborators > button:active {
+  background: color-mix(in srgb, var(--lt-accent) 1%, transparent) !important;
+  transform: scale(0.94);
+}
+
+.cp__header > .r svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.75;
+}
+
+.cp__header .cp__file-sync-indicator .ui__button.cloud.on::after,
+.cp__header .cp__rtc-sync-indicator .ui__button.cloud.on::after {
+  right: 3px;
+  bottom: 4px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(10, 14, 10, 0.72);
+}
+
+.left-sidebar-inner,
+.cp__right-sidebar-inner {
+  border-color: var(--lt-border) !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: brightness(0.96);
+  backdrop-filter: brightness(0.96);
+}
+
+.left-sidebar-inner {
+  border-right: 1px solid var(--lt-border);
+}
+
+.cp__right-sidebar-inner {
+  border-left: 1px solid var(--lt-border);
+}
+
+.cp__right-sidebar-topbar {
+  border-bottom: 1px solid var(--lt-border);
+  background: transparent !important;
+}
+
+.cp__right-sidebar-scrollable,
+.cp__right-sidebar-scollable,
+.sidebar-contents-container,
+.sidebar-item-list,
+.sidebar-panel-content {
+  background: transparent !important;
+}
+
+.left-sidebar-inner .sidebar-contents-container,
+.left-sidebar-inner .sidebar-content-group,
+.left-sidebar-inner .sidebar-content-group-inner {
+  background: transparent !important;
+}
+
+.left-sidebar-inner
+  .sidebar-content-group
+  > .sidebar-content-group-inner
+  > .hd {
+  border: 1px solid color-mix(in srgb, var(--lt-border) 64%, transparent);
+  border-radius: var(--lt-radius-md);
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--lt-bg-soft) 62%, transparent) 0,
+      color-mix(in srgb, var(--lt-panel) 34%, transparent) 68%,
+      transparent 100%
+    ) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.018),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.035);
+}
+
+.left-sidebar-inner
+  :is(.favorites, .recent)
+  > .sidebar-content-group-inner
+  > .hd:hover {
+  border-color: var(--lt-border);
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--lt-control) 42%, transparent) 0,
+      color-mix(in srgb, var(--lt-panel) 28%, transparent) 72%,
+      transparent 100%
+    ) !important;
+}
+
+.left-sidebar-inner :is(.favorite-item, .recent-item),
+.left-sidebar-inner :is(.favorite-item, .recent-item) a {
+  font-weight: 400 !important;
+}
+
+.sidebar-item {
+  overflow: hidden;
+  border: 1px solid var(--lt-border);
+  border-radius: var(--lt-radius-md);
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.sidebar-item-header {
+  border-bottom: 1px solid var(--lt-border);
+  background: var(--lt-bg-soft) !important;
+}
+
+.left-sidebar a,
+.left-sidebar button,
+.cp__right-sidebar button,
+.cp__vertical-menu-button {
+  border-radius: var(--lt-radius-sm);
+  transition:
+    color var(--lt-motion) var(--lt-ease),
+    background-color var(--lt-motion) var(--lt-ease),
+    transform var(--lt-motion) var(--lt-ease);
+}
+
+.left-sidebar a:hover,
+.left-sidebar button:hover,
+.cp__right-sidebar button:hover,
+.cp__vertical-menu-button:hover {
+  background: var(--lt-control-hover) !important;
+}
+
+.left-sidebar a:active,
+.left-sidebar button:active,
+.cp__vertical-menu-button:active {
+  transform: scale(0.98);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Main page and typography                                                   */
+/* -------------------------------------------------------------------------- */
+
+.page-inner,
+.cp__page-inner-wrap {
+  max-width: var(--lt-content-width);
+  margin-inline: auto;
+  padding-top: clamp(1.5rem, 4vh, 3rem);
+}
+
+.page-inner:has(.ls-table),
+.cp__page-inner-wrap:has(.ls-table) {
+  max-width: min(900px, calc(100vw - var(--lt-sidebar-width) - 36px));
+}
+
+.ls-page-title {
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+:is(.page-inner, .cp__page-inner-wrap) :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--lt-text);
+  letter-spacing: -0.025em;
+}
+
+:is(.page-inner, .cp__page-inner-wrap) a {
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.08em;
+}
+
+:is(.page-inner, .cp__page-inner-wrap) :is(a, .page-ref, .block-ref) {
+  transition:
+    color var(--lt-motion) var(--lt-ease),
+    background-color var(--lt-motion) var(--lt-ease);
+}
+
+.page-ref,
+.block-ref {
+  border-radius: 5px;
+}
+
+.page-ref:hover,
+.block-ref:hover {
+  background: color-mix(in srgb, var(--lt-accent) 11%, transparent);
+}
+
+.ls-block,
+.block-content-wrapper,
+.block-main-container {
+  border-radius: var(--lt-radius-xs);
+}
+
+.ls-block > .block-main-container,
+.block-content-wrapper {
+  transition:
+    background-color var(--lt-motion) var(--lt-ease),
+    box-shadow var(--lt-motion) var(--lt-ease);
+}
+
+.ls-block > .block-main-container:hover,
+.block-content-wrapper:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.block-highlight,
+.ls-block.is-selected > .block-main-container {
+  background: color-mix(in srgb, var(--lt-accent) 1%, transparent) !important;
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--lt-accent) 72%, transparent);
+}
+
+.bullet-container .bullet,
+.block-control .bullet {
+  background-color: var(--lt-text-muted);
+  box-shadow: 0 0 0 0 transparent;
+  transition:
+    background-color var(--lt-motion) var(--lt-ease),
+    box-shadow var(--lt-motion) var(--lt-ease),
+    transform var(--lt-motion) var(--lt-ease);
+}
+
+.bullet-container:hover .bullet,
+.block-control:hover .bullet {
+  background-color: var(--lt-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lt-accent) 12%, transparent);
+  transform: scale(1.08);
+}
+
+.block-children-left-border,
+.block-children-container {
+  border-color: var(--lt-border) !important;
+}
+
+:is(.page-inner, .cp__page-inner-wrap) :is(blockquote, .ls-blockquote) {
+  border: 0;
+  border-left: 3px solid color-mix(in srgb, var(--lt-accent) 65%, transparent);
+  border-radius: 0 var(--lt-radius-sm) var(--lt-radius-sm) 0;
+  background: var(--lt-control);
+}
+
+:is(.page-inner, .cp__page-inner-wrap) :is(pre, code, .cp__fenced-code-block) {
+  border-color: var(--lt-border) !important;
+  border-radius: var(--lt-radius-sm);
+}
+
+:is(.page-inner, .cp__page-inner-wrap) :is(pre, .cp__fenced-code-block) {
+  background: rgba(8, 17, 15, 0.42) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+html[data-theme="light"]
+  :is(.page-inner, .cp__page-inner-wrap)
+  :is(pre, .cp__fenced-code-block),
+html.light
+  :is(.page-inner, .cp__page-inner-wrap)
+  :is(pre, .cp__fenced-code-block),
+.light-theme
+  :is(.page-inner, .cp__page-inner-wrap)
+  :is(pre, .cp__fenced-code-block) {
+  background: rgba(255, 255, 255, 0.42) !important;
+}
+
+:is(.page-inner, .cp__page-inner-wrap) hr {
+  border-color: var(--lt-border) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Logseq DB properties                                                       */
+/* -------------------------------------------------------------------------- */
+
+.page-add-tags,
+.ls-page-properties .page-ref,
+.bottom-property-pill,
+.bottom-property-add-btn {
+  min-height: 24px;
+  border: 1px solid var(--lt-border);
+  border-radius: 999px;
+  color: var(--lt-text-secondary) !important;
+  background: var(--lt-control);
+  transition:
+    color var(--lt-motion) var(--lt-ease),
+    border-color var(--lt-motion) var(--lt-ease),
+    background-color var(--lt-motion) var(--lt-ease),
+    transform var(--lt-motion) var(--lt-ease);
+}
+
+.bottom-property-pill:hover,
+.bottom-property-add-btn:hover {
+  border-color: color-mix(in srgb, var(--lt-accent) 38%, transparent);
+  color: var(--lt-text) !important;
+  background: color-mix(in srgb, var(--lt-accent) 12%, transparent);
+  transform: none;
+}
+
+.ls-page-properties,
+.page-properties,
+.ls-block-properties,
+.block-properties,
+.properties-panel {
+  border: 0;
+  border-block: 1px solid var(--lt-border);
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.ls-page-properties,
+.page-properties,
+.properties-panel {
+  margin-block: 1rem 1.4rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.ls-block-properties,
+.block-properties {
+  margin-block: 0.45rem;
+  padding: 0.45rem 0.6rem;
+}
+
+.ls-property-key,
+.page-property-key {
+  color: var(--lt-text-muted);
+  font-size: 0.84em;
+  font-weight: 620;
+}
+
+.ls-property-input,
+.ls-property-dropdown,
+.ls-property-dialog,
+.ls-property-date-picker,
+.ls-new-property {
+  border-color: var(--lt-border) !important;
+  border-radius: var(--lt-radius-sm) !important;
+  background: var(--lt-control) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* DB table, gallery, view, and query builder                                 */
+/* -------------------------------------------------------------------------- */
+
+.ls-view-head,
+.ls-view-body,
+.ls-table,
+.ls-gallery-group,
+.custom-query,
+.cp__query-builder {
+  border-color: var(--lt-border) !important;
+}
+
+.ls-view-head {
+  margin-top: 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--lt-border);
+  border-radius: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.ls-view-body {
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--lt-border);
+  border-radius: 0 0 var(--lt-radius-sm) var(--lt-radius-sm);
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.ls-table {
+  background: transparent !important;
+}
+
+.ls-table-rows,
+.ls-table-rows > .relative,
+.ls-table-footer {
+  background: transparent !important;
+}
+
+.ls-table-row,
+.ls-table-cell {
+  background-color: transparent !important;
+}
+
+.ls-table-row > .ls-table-cell,
+.ls-table-cell > .color-level,
+.ls-table-cell > .block-main-container,
+.ls-table-cell .block-content-wrapper {
+  background-color: transparent !important;
+}
+
+.ls-table .ls-fixed,
+.ls-table .sticky,
+.ls-table-header > :first-child,
+.ls-table-row > :first-child {
+  background: var(--lt-bg-soft) !important;
+}
+
+.ls-table-header,
+.ls-table-header-cell {
+  border-bottom: 1px solid var(--lt-border);
+  color: var(--lt-text-secondary);
+  background: var(--lt-bg-soft) !important;
+}
+
+.ls-table-header-cell,
+.ls-table-cell {
+  border-color: var(--lt-border) !important;
+}
+
+.ls-table-row {
+  transition: background-color var(--lt-motion) var(--lt-ease);
+}
+
+.ls-table-row:nth-child(even) {
+  background: var(--lt-bg-soft) !important;
+}
+
+.ls-table-row:hover {
+  background: color-mix(in srgb, var(--lt-accent) 7.5%, transparent) !important;
+}
+
+.ls-table-resize-handle:hover {
+  background: color-mix(in srgb, var(--lt-accent) 62%, transparent);
+}
+
+.ls-gallery-card-content,
+.ls-card,
+.ls-card-item {
+  overflow: hidden;
+  border: 1px solid var(--lt-border) !important;
+  border-radius: var(--lt-radius-md) !important;
+  background: var(--lt-panel) !important;
+  box-shadow: none;
+  transition:
+    border-color var(--lt-motion) var(--lt-ease),
+    box-shadow var(--lt-motion) var(--lt-ease),
+    transform var(--lt-motion) var(--lt-ease);
+}
+
+.ls-gallery-card-content:hover,
+.ls-card:hover,
+.ls-card-item:hover {
+  border-color: color-mix(in srgb, var(--lt-accent) 28%, transparent) !important;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+.cp__query-builder,
+.custom-query {
+  border: 0;
+  border-block: 1px solid var(--lt-border);
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.cp__query-builder-filter,
+.ls-view-filter-value,
+.ls-view-filter-value-item {
+  border-color: var(--lt-border) !important;
+  border-radius: var(--lt-radius-sm);
+  background: var(--lt-control) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Inputs, buttons, checkboxes                                                */
+/* -------------------------------------------------------------------------- */
+
+#app-container
+  :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    textarea,
+    select,
+    .form-input,
+    .cp__select-input,
+    .cp__filters-input
+  ) {
+  border: 1px solid var(--lt-border) !important;
+  border-radius: var(--lt-radius-sm) !important;
+  color: var(--lt-text) !important;
+  background: var(--lt-control) !important;
+  box-shadow: none !important;
+  transition:
+    border-color var(--lt-motion) var(--lt-ease),
+    background-color var(--lt-motion) var(--lt-ease),
+    box-shadow var(--lt-motion) var(--lt-ease);
+}
+
+#app-container
+  :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    textarea,
+    select,
+    .form-input,
+    .cp__select-input,
+    .cp__filters-input
+  ):focus {
+  border-color: color-mix(in srgb, var(--lt-accent) 52%, transparent) !important;
+  background: var(--lt-control-hover) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lt-accent) 12%, transparent) !important;
+  outline: none;
+}
+
+:is(button.button, .ui__button, .button) {
+  border-radius: var(--lt-radius-sm);
+}
+
+.button:not(.button-primary),
+button[data-variant="secondary"],
+button[data-variant="outline"] {
+  border-color: var(--lt-border);
+  background: var(--lt-control);
+}
+
+.cp__header button:not(.button-primary),
+.left-sidebar button:not(.button-primary),
+.cp__right-sidebar-topbar button:not(.button-primary),
+.sidebar-item-header button:not(.button-primary),
+.ui__button.icon:not(.button-primary) {
+  background: transparent;
+}
+
+.editor-inner textarea,
+textarea.block-editor,
+.ls-page-title textarea,
+.block-title-wrap textarea {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Linked references otherwise keep Logseq's opaque default gray surface. */
+.ls-bidirectional-block-container,
+.references-blocks,
+.references-blocks-wrap {
+  background: transparent !important;
+}
+
+.references-blocks-item {
+  border: 0;
+  border-top: 1px solid var(--lt-border);
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.references-blocks-item .color-level,
+.ls-bidirectional-block-container .color-level,
+.ls-bidirectional-block-container article {
+  background-color: transparent !important;
+}
+
+.button-primary,
+button[data-variant="primary"],
+button.bg-primary {
+  border-color: transparent !important;
+  color: hsl(var(--primary-foreground, 0 0% 98%)) !important;
+  background: var(--lt-accent) !important;
+  box-shadow: 0 7px 20px color-mix(in srgb, var(--lt-accent) 18%, transparent);
+}
+
+#app-container input[type="checkbox"] {
+  border-color: var(--lt-border-strong);
+  border-radius: 5px;
+  accent-color: var(--lt-accent);
+}
+
+#app-container input[type="checkbox"]:checked {
+  border-color: var(--lt-accent);
+  background-color: var(--lt-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Floating surfaces                                                          */
+/* -------------------------------------------------------------------------- */
+
+.ui__modal-panel,
+.ui__popover-content,
+.ui__dropdown-menu-content,
+.ls-context-menu-content,
+.ls-ui-float-content,
+.dropdown-wrapper,
+.menu-links-wrapper,
+.cp__cmdk,
+.ls-dialog-cmdk,
+.ls-dialog-select,
+.ls-property-dialog,
+.ls-preview-popup {
+  border: 1px solid var(--lt-border) !important;
+  border-radius: var(--lt-radius-md) !important;
+  color: var(--lt-text);
+  background: var(--lt-panel-strong) !important;
+  box-shadow: var(--lt-shadow-float) !important;
+  -webkit-backdrop-filter: blur(var(--lt-blur)) saturate(130%);
+  backdrop-filter: blur(var(--lt-blur)) saturate(130%);
+}
+
+.ui__modal-overlay,
+.menu-backdrop {
+  background: rgba(2, 8, 6, 0.3) !important;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.menu-link,
+.cp__select-results > * {
+  border-radius: var(--lt-radius-xs);
+  transition:
+    color var(--lt-motion) var(--lt-ease),
+    background-color var(--lt-motion) var(--lt-ease);
+}
+
+.menu-link:hover,
+.ui__dropdown-menu-content [role="menuitem"]:hover,
+.ui__dropdown-menu-content [role="menuitem"][data-highlighted],
+.ls-context-menu-content [role="menuitem"]:hover,
+.ls-context-menu-content [role="menuitem"][data-highlighted],
+.cp__select-results > *:hover {
+  color: var(--lt-text);
+  background: var(--lt-control-hover) !important;
+}
+
+.cp__cmdk-search-input,
+.cp__palette-input {
+  border-bottom: 1px solid var(--lt-border);
+  background: transparent !important;
+}
+
+.ui__notifications,
+.ui__notifications-content {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.ui__notifications .notification-area {
+  border: 1px solid var(--lt-border) !important;
+  border-radius: var(--lt-radius-md) !important;
+  color: var(--lt-text);
+  background: var(--lt-panel-strong) !important;
+  box-shadow: var(--lt-shadow-float);
+  -webkit-backdrop-filter: blur(var(--lt-blur));
+  backdrop-filter: blur(var(--lt-blur));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Motion, mobile, accessibility                                              */
+/* -------------------------------------------------------------------------- */
+
+@keyframes lt-surface-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ui__modal-panel,
+.cp__cmdk,
+.ls-dialog-cmdk,
+.ls-dialog-select,
+.ls-preview-popup {
+  animation: lt-surface-in var(--lt-motion) var(--lt-ease);
+}
+
+@media (max-width: 900px) {
+  :root {
+    --lt-content-width: min(100%, 760px);
+    --lt-blur: 19px;
+  }
+
+  .page-inner,
+  .cp__page-inner-wrap {
+    padding-inline: clamp(12px, 3vw, 24px);
+  }
+
+  .left-sidebar-inner,
+  .cp__right-sidebar-inner {
+    box-shadow: var(--lt-shadow-float);
+  }
+
+  .ls-view-body {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --lt-radius-md: 13px;
+    --lt-motion: 180ms;
+  }
+
+  .cp__header {
+    background: var(--lt-panel) !important;
+  }
+
+  .ls-page-title {
+    letter-spacing: -0.025em;
+  }
+
+  .ls-gallery-card-content:hover,
+  .ls-card:hover,
+  .ls-card-item:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --lt-motion: 1ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --lt-border: rgba(255, 255, 255, 0.28);
+    --lt-border-strong: rgba(255, 255, 255, 0.42);
+    --lt-text-secondary: #d1dbd6;
+  }
+
+  html[data-theme="light"],
+  html.light,
+  .light-theme {
+    --lt-border: rgba(20, 43, 34, 0.28);
+    --lt-border-strong: rgba(20, 43, 34, 0.42);
+    --lt-text-secondary: #3d5148;
+  }
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  :root {
+    --lt-panel: rgba(18, 31, 28, 0.94);
+    --lt-panel-strong: rgba(18, 31, 28, 0.98);
+  }
+
+  html[data-theme="light"],
+  html.light,
+  .light-theme {
+    --lt-panel: rgba(246, 250, 247, 0.94);
+    --lt-panel-strong: rgba(246, 250, 247, 0.98);
+  }
+}

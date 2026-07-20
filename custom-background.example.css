@@ -1,0 +1,15 @@
+/*
+ * Paste the variables you want to change into Settings > Edit custom.css.
+ * Keep this file outside Logseq; it is a reference and is not loaded by the theme.
+ */
+
+html:root {
+  /* Keep private wallpapers local so the theme remains offline-capable. */
+  --lt-wallpaper:
+    linear-gradient(135deg, rgba(9, 25, 22, 0.34), rgba(34, 52, 43, 0.1)),
+    url("file:///Users/you/Pictures/wallpaper.jpg");
+
+  --lt-wallpaper-position: center;
+  --lt-wallpaper-blur: 8px;
+  --lt-content-width: 860px;
+}
