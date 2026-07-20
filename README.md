@@ -1,97 +1,99 @@
 # Logseq Transparent
 
-A calm, translucent glass theme for **Logseq DB 2.0+**, inspired by the visual
-direction of
-[Oczko24/Obsidian-transparent](https://github.com/Oczko24/Obsidian-transparent)
-and rebuilt around Logseq's native layout and DB interface.
+A translucent glass theme for **Logseq DB 2.0+** with balanced dark and light
+appearances.
 
-The current release is **0.4.2**.
+Logseq Transparent gives the Logseq interface a calm, layered look while
+preserving the structure and readability of the native DB interface. It styles
+the main workspace, navigation, sidebars, blocks, properties, tables, dialogs,
+notifications, and other DB views.
+
+## Preview
+
+### Dark
+
+![Logseq Transparent dark theme](./assets/logseq-transparent-dark.png)
+
+### Light
+
+![Logseq Transparent light theme](./assets/logseq-transparent-light.png)
 
 ## Features
 
-- Dark and light surfaces that follow Logseq's current appearance
-- Accent states derived from Logseq's active selection color
-- Translucent navigation, sidebars, dialogs, notifications, and DB views
-- Styling for blocks, properties, tables, gallery cards, and query builders
-- Responsive layouts, reduced-motion handling, and increased-contrast tokens
-- Local assets only at runtime; no remote fonts, scripts, trackers, or images
+- Matching dark and light theme variants
+- Translucent surfaces with soft gradients and restrained blur
+- Colors that follow Logseq's active selection color
+- Coordinated navigation, sidebar, editor, dialog, and notification styling
+- DB view styling for properties, tables, galleries, and query builders
+- Responsive layout and reduced-motion support
+- No remote fonts, trackers, or images required at runtime
 
-## Install
+## Installation
 
-1. Open Logseq and go to **Plugins**.
-2. Open the plugin menu and choose **Load unpacked plugin**.
-3. Select this repository folder.
+### Logseq Marketplace
+
+1. Open **Plugins** in Logseq.
+2. Select **Marketplace**, then open the **Themes** category.
+3. Search for **Logseq Transparent** and install it.
 4. Open **Settings → Themes**.
-5. Choose **Logseq Transparent Light** or **Logseq Transparent Dark**.
+5. Select **Logseq Transparent Light** or **Logseq Transparent Dark**.
 
-The package registers its light and dark variants through `logseq.themes`.
-Logseq loads `custom.css` only after the corresponding theme is selected. A
-minimal local entry calls `logseq.ready()` so Logseq can complete package
-initialization; it does not fetch or inject the stylesheet.
+### Manual installation
 
-## Customize
+1. Download and extract the latest release archive.
+2. Open **Plugins** in Logseq.
+3. Open the plugin menu and select **Load unpacked plugin**.
+4. Select the extracted theme folder.
+5. Open **Settings → Themes** and select the light or dark variant.
 
-The `--lt-*` variables at the top of `custom.css` are the supported
-customization surface. Override only the values you need in Logseq's
-**Settings → Edit custom.css**:
+## Usage
+
+Choose the variant that matches your Logseq appearance:
+
+- **Logseq Transparent Dark** for dark appearance
+- **Logseq Transparent Light** for light appearance
+
+The theme follows Logseq's active selection color for links, controls, and
+other accent states. Change the selection color in Logseq to update the theme's
+accent color.
+
+## Custom background
+
+You can override the public `--lt-*` variables in Logseq's
+**Settings → Edit custom.css**. For example:
 
 ```css
 html:root {
-  --lt-content-width: 920px;
   --lt-wallpaper:
     linear-gradient(rgba(9, 20, 17, 0.2), rgba(9, 20, 17, 0.2)),
     url("file:///Users/you/Pictures/wallpaper.jpg");
   --lt-wallpaper-blur: 8px;
+  --lt-wallpaper-position: center;
 }
 ```
 
-By default, `--lt-accent` follows `--ls-active-primary-color`. Override it only
-if you intentionally want the theme accent to differ from Logseq's selection
-color.
-
-See `custom-background.example.css` for a local-image example.
-
-## Project structure
-
-- `custom.css` — theme tokens and Logseq component styles
-- `index.html` — local package entry
-- `index.js` — reports package readiness without injecting CSS
-- `vendor/` — pinned Logseq SDK runtime and its third-party license notice
-- `scripts/validate.mjs` — dependency-free structural and regression checks
-- `custom-background.example.css` — optional local customization example
-
-## Validation
-
-Run:
-
-```sh
-npm run check
-```
-
-The check validates the theme manifest and its light/dark registrations,
-ensures that the entry reports readiness without injecting CSS, and checks
-balanced CSS blocks, the CSS/package version, notification wrapper isolation,
-and selectors previously associated with UI regressions.
-
-The selectors were compared with the installed Logseq DB application source.
-Because visual behavior can change between Logseq builds and operating
-systems, a final visual pass is still recommended after upgrading Logseq.
+Use a local `file:///` URL for personal background images. A complete example
+is available in [`custom-background.example.css`](./custom-background.example.css).
 
 ## Compatibility
 
-The theme targets Logseq DB 2.0+ and retains compatibility selectors only when
-the corresponding class exists in the installed Logseq application. Third-party
-plugins can require their own additions because plugin markup is not
-standardized.
+- Logseq DB 2.0 or later
+- macOS, Windows, and Linux desktop applications
+- Light and dark appearances
 
-## Credits
+Third-party plugins may require additional styling because their interfaces are
+not standardized by Logseq.
 
-The translucent panes, quiet motion, and wallpaper treatment were benchmarked
-against
-[Obsidian Transparent](https://github.com/Oczko24/Obsidian-transparent).
-No CSS from that project is bundled here.
+## Inspiration
 
-The bundled Logseq SDK is `@logseq/libs` 0.0.17. Its included third-party
-license notice is stored beside the bundle.
+Logseq Transparent is inspired by
+[`oczko24/Obsidian-transparent`](https://github.com/oczko24/Obsidian-transparent),
+particularly its transparent gradient surfaces and layered interface
+composition.
 
-Released under the MIT License.
+This is an independent Logseq theme and does not include CSS from the original
+project.
+
+## License
+
+Released under the [MIT License](./LICENSE).

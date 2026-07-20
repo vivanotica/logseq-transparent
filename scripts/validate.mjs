@@ -12,6 +12,7 @@ const css = read("custom.css");
 const html = read("index.html");
 const javascript = read("index.js");
 const example = read("custom-background.example.css");
+const readme = read("README.md");
 
 const requiredFiles = [
   packageJson.main,
@@ -20,12 +21,33 @@ const requiredFiles = [
   "README.md",
   "LICENSE",
   "index.js",
+  "assets/logseq-transparent-dark.png",
+  "assets/logseq-transparent-light.png",
   "vendor/logseq-libs-0.0.17.js",
   "vendor/logseq-libs-0.0.17.LICENSE.txt",
 ];
 
 for (const path of requiredFiles) {
   if (!existsSync(path)) fail(`Missing required file: ${path}`);
+}
+
+for (const preview of [
+  "./assets/logseq-transparent-dark.png",
+  "./assets/logseq-transparent-light.png",
+]) {
+  if (!readme.includes(preview)) {
+    fail(`README must display the theme preview: ${preview}`);
+  }
+}
+if (
+  !readme.includes(
+    "https://github.com/oczko24/Obsidian-transparent",
+  )
+) {
+  fail("README must credit the Obsidian-transparent inspiration.");
+}
+if (/^## (Project structure|Validation|Development)\s*$/im.test(readme)) {
+  fail("README must remain user-facing and exclude development sections.");
 }
 
 let blockDepth = 0;
