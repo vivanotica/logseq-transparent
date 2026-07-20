@@ -1,6 +1,4 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
-import vm from "node:vm";
 
 const read = (path) => readFileSync(path, "utf8");
 const fail = (message) => {
@@ -10,7 +8,6 @@ const fail = (message) => {
 const packageJson = JSON.parse(read("package.json"));
 const css = read("custom.css");
 const html = read("index.html");
-const javascript = read("index.js");
 const example = read("custom-background.example.css");
 
 const requiredFiles = [
@@ -19,64 +16,10 @@ const requiredFiles = [
   "custom.css",
   "README.md",
   "LICENSE",
-  "vendor/logseq-libs-0.0.17.js",
-  "vendor/logseq-libs-0.0.17.LICENSE.txt",
 ];
 
 for (const path of requiredFiles) {
   if (!existsSync(path)) fail(`Missing required file: ${path}`);
-}
-
-const entryScript = new vm.Script(javascript, { filename: "index.js" });
-
-const runEntry = async ({ responseOk }) => {
-  let readyCallback;
-  let providedStyle = null;
-  const messages = [];
-  const errors = [];
-  const context = vm.createContext({
-    console: {
-      error: (...args) => errors.push(args),
-    },
-    fetch: async () => ({
-      ok: responseOk,
-      status: responseOk ? 200 : 503,
-      text: async () => "body { color: red; }",
-    }),
-    logseq: {
-      ready: (callback) => {
-        readyCallback = callback;
-      },
-      resolveResourceFullUrl: (path) => `lsp://plugin/${path}`,
-      provideStyle: (style) => {
-        providedStyle = style;
-      },
-      UI: {
-        showMsg: (...args) => messages.push(args),
-      },
-    },
-  });
-
-  entryScript.runInContext(context);
-  if (typeof readyCallback !== "function") fail("Plugin entry did not register logseq.ready().");
-  await readyCallback();
-  return { errors, messages, providedStyle };
-};
-
-const successfulEntry = await runEntry({ responseOk: true });
-if (successfulEntry.providedStyle !== "body { color: red; }") {
-  fail("Plugin entry did not provide the fetched stylesheet.");
-}
-if (successfulEntry.messages.length || successfulEntry.errors.length) {
-  fail("Plugin entry reported an error on the successful load path.");
-}
-
-const failedEntry = await runEntry({ responseOk: false });
-if (failedEntry.providedStyle !== null) {
-  fail("Plugin entry provided a stylesheet after a failed fetch.");
-}
-if (failedEntry.messages.length !== 1 || failedEntry.errors.length !== 1) {
-  fail("Plugin entry did not report a failed stylesheet load.");
 }
 
 let blockDepth = 0;
@@ -128,29 +71,47 @@ if (cssVersion !== packageJson.version) {
   fail(`CSS version ${cssVersion ?? "missing"} does not match package version ${packageJson.version}.`);
 }
 
-if (packageJson.logseq.themes) {
-  fail("The manifest must not register a second stylesheet-loading path.");
+const themes = packageJson.logseq?.themes;
+if (!Array.isArray(themes) || themes.length !== 2) {
+  fail("The manifest must register exactly one light and one dark theme.");
 }
 
-if (/<script[^>]+src=["']https?:\/\//i.test(html)) {
-  fail("Runtime scripts must be local and pinned.");
+const modes = new Set();
+for (const theme of themes) {
+  if (!theme.name || !theme.description) {
+    fail("Every theme registration must include a name and description.");
+  }
+  if (!["light", "dark"].includes(theme.mode)) {
+    fail(`Unsupported theme mode: ${theme.mode ?? "missing"}.`);
+  }
+  if (modes.has(theme.mode)) {
+    fail(`Theme mode is registered more than once: ${theme.mode}.`);
+  }
+  modes.add(theme.mode);
+
+  const themePath = theme.url?.replace(/^\.\//, "");
+  if (themePath !== "custom.css" || !existsSync(themePath)) {
+    fail(`Theme mode ${theme.mode} must reference ./custom.css.`);
+  }
 }
-for (const match of html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)) {
-  const scriptPath = match[1].replace(/^\.\//, "");
-  if (!existsSync(scriptPath)) fail(`Missing local runtime script: ${scriptPath}`);
+
+if (!modes.has("light") || !modes.has("dark")) {
+  fail("Both light and dark theme modes must be registered.");
+}
+
+if (/<script\b/i.test(html)) {
+  fail("The theme entry must not execute a plugin runtime.");
+}
+if (
+  existsSync("index.js") ||
+  existsSync("vendor/logseq-libs-0.0.17.js") ||
+  existsSync("vendor/logseq-libs-0.0.17.LICENSE.txt")
+) {
+  fail("Obsolete CSS-injection runtime files must not be present.");
 }
 
 if (/https?:\/\//i.test(example)) {
   fail("The wallpaper example must remain local-only.");
-}
-
-const sdkHash = createHash("sha256")
-  .update(readFileSync("vendor/logseq-libs-0.0.17.js"))
-  .digest("hex");
-const expectedSdkHash =
-  "fbf51e570989ac2eccbd726816ef8a619612fb6c047dfe39cc2c9103b12b4669";
-if (sdkHash !== expectedSdkHash) {
-  fail("The vendored Logseq SDK does not match the pinned 0.0.17 bundle.");
 }
 
 const removedTokens = [
